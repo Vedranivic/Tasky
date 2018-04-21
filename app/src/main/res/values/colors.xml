@@ -7,5 +7,6 @@
     <color name="priorityLow">#7cb342</color>
     <color name="priorityMedium">#feffc107</color>
     <color name="priorityHigh">#fdef5350</color>
+    <color name="listDefault">#e1e1e1</color>
 
 </resources>

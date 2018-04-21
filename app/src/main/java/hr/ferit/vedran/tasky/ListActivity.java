@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +32,8 @@ public class ListActivity extends AppCompatActivity {
 
     @BindView(R.id.rvTaskList) RecyclerView rvTasks;
     @BindView(R.id.fabAddTask) FloatingActionButton fabAddTask;
-    @BindView(R.id.listBack) RelativeLayout listBack;
+    @BindView(R.id.listBack) CoordinatorLayout listBack;
+
     private TaskViewModel mTaskViewModel;
     private TaskClickCallback tcc = new TaskClickCallback() {
         @Override
@@ -57,7 +59,6 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         ButterKnife.bind(this);
-        //this.setUpUI();
         adapter = new TaskAdapter(this, tcc);
         rvTasks.setAdapter(adapter);
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
@@ -68,9 +69,14 @@ public class ListActivity extends AppCompatActivity {
                             @Override
                              public void onChanged(@Nullable final List<Task> tasks) {
                                 adapter.setTasks(tasks);
+                                if (adapter.getItemCount() == 0) {
+                                    listBack.setBackground(getResources().getDrawable(R.drawable.empty_state));
+                                }
+                                else{
+                                    listBack.setBackgroundColor(getResources().getColor(R.color.listDefault));
+                                }
                              }
                       });
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent entry) {
