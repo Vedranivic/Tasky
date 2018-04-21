@@ -1,44 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-    android:background="#4affffff"
-    android:layout_margin="@dimen/taskPadding"
-    android:elevation="5dp"
-    android:padding="@dimen/taskPadding">
-    <ImageView
-        android:id="@+id/ivPriority"
-        android:layout_width="10dp"
-        android:layout_height="40dp" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/taskPadding"
+    android:layout_marginStart="@dimen/taskPadding"
+    android:layout_marginEnd="@dimen/taskPadding"
+    android:elevation="@dimen/elevationHigh"
+    android:background="@color/white"
+    android:gravity="center_vertical">
+
+<RelativeLayout
+            android:id="@+id/itemBack"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
     <RelativeLayout
+        android:layout_below="@id/itemBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivPriority"
-        >
-    <TextView
-    android:id="@+id/tvTaskTitle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textSize="@dimen/tastTitleSize"
-    android:textColor="@color/white"/>
-    <TextView
-    android:id="@+id/tvTaskCategory"
-    android:layout_below="@id/tvTaskTitle"
-    android:layout_alignParentStart="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textColor="@color/white"
-    android:alpha="0.7"
-    android:textSize="@dimen/taskCategorySize"/>
-    <TextView
-    android:id="@+id/tvTaskDeadLine"
-    android:layout_below="@id/tvTaskTitle"
-    android:layout_alignParentEnd="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:alpha="0.7"
-    android:textColor="@color/white"
-    android:textSize="@dimen/taskCategorySize"/>
+        android:paddingStart="@dimen/taskPadding"
+        android:paddingBottom="@dimen/taskPadding"
+        android:paddingEnd="@dimen/taskPadding">
+        <TextView
+         android:id="@+id/tvTaskTitle"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:textSize="@dimen/tastTitleSize" />
+         <TextView
+         android:id="@+id/tvTaskCategory"
+         android:layout_below="@id/tvTaskTitle"
+         android:layout_alignParentStart="true"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textColor="#747474"
+         android:alpha="0.7"
+         android:textSize="@dimen/taskCategorySize"/>
+         <TextView
+         android:id="@+id/tvTaskDeadLine"
+         android:layout_below="@id/tvTaskTitle"
+         android:layout_alignParentEnd="true"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:alpha="0.7"
+         android:textColor="#747474"
+         android:textSize="@dimen/taskCategorySize"/>
     </RelativeLayout>
 </RelativeLayout>

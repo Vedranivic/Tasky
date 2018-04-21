@@ -1,64 +1,94 @@
 package hr.ferit.vedran.tasky;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vedra on 17.4.2018..
  */
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    ArrayList<Task> mTasks;
+    class TaskViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvTaskTitle, tvTaskCategory, tvTaskDeadLine;
+        private final RelativeLayout itemBack;
 
-    public TaskAdapter(ArrayList<Task> tasks){
-        mTasks = tasks;
+        private TaskViewHolder(View itemView, final TaskClickCallback tcc) {
+            super(itemView);
+            tvTaskTitle = itemView.findViewById(R.id.tvTaskTitle);
+            tvTaskCategory = itemView.findViewById(R.id.tvTaskCategory);
+            tvTaskDeadLine = itemView.findViewById(R.id.tvTaskDeadLine);
+            itemBack = itemView.findViewById(R.id.itemBack);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    return tcc.onLongClick(mTasks.get(getAdapterPosition()));
+                }
+            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    tcc.onClick(mTasks.get(getAdapterPosition()));
+                }
+            });
+
+        }
+    }
+    private final LayoutInflater mInflater;
+    private List<Task> mTasks; // Cached copy of tasks
+    private TaskClickCallback taskClickCallback;
+
+    TaskAdapter(Context context, TaskClickCallback tcc) {
+        this.mInflater = LayoutInflater.from(context);
+        this.taskClickCallback = tcc;
     }
 
+    @Override
+    public TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = mInflater.inflate(R.layout.item_task, parent, false);
+        return new TaskViewHolder(itemView,taskClickCallback);
+    }
+
+    @Override
+    public void onBindViewHolder(TaskViewHolder holder, int position) {
+        if (mTasks != null) {
+            Task current = mTasks.get(position);
+            holder.tvTaskTitle.setText(current.getTitle());
+            holder.tvTaskCategory.setText(current.getCategory());
+            holder.tvTaskDeadLine.setText(String.valueOf(current.getDeadLine()));
+            holder.itemBack.setBackgroundColor(current.getPriority());
+            holder.tvTaskTitle.setTextColor(current.getPriority());
+        } else {
+            holder.tvTaskTitle.setText(R.string.dataNotReadyText);
+        }
+    }
+
+    void setTasks(List<Task> tasks){
+        mTasks = tasks;
+        notifyDataSetChanged();
+    }
+
+    // getItemCount() is called many times, and when it is first called,
+    // mWords has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
-        return this.mTasks.size();
+        if (mTasks != null)
+            return mTasks.size();
+        else return 0;
     }
 
-    public void insertTask(Task task) {
-        this.mTasks.add(task);
-        this.notifyDataSetChanged();
-    }
-
-    @Override
-    public TaskAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View taskView = inflater.inflate(R.layout.item_task, parent, false);
-        ViewHolder taskViewHolder = new ViewHolder(taskView);
-        return taskViewHolder;
-    }
-
-    @Override
-    public void onBindViewHolder(TaskAdapter.ViewHolder holder, int position) {
-        Task task = this.mTasks.get(position);
-        holder.tvTaskTitle.setText(task.getTitle());
-        holder.tvTaskCategory.setText(task.getCategory());
-        holder.tvTaskDeadLine.setText(String.valueOf(task.getDeadLine()));
-        holder.ivPriority.setBackgroundColor(task.getPriorityImage());
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvTaskTitle, tvTaskCategory, tvTaskDeadLine;
-        public ImageView ivPriority;
-        public ViewHolder(View itemView) {
-            super(itemView);
-            this.tvTaskTitle = (TextView) itemView.findViewById(R.id.tvTaskTitle);
-            this.tvTaskCategory = (TextView) itemView.findViewById(R.id.tvTaskCategory);
-            this.tvTaskDeadLine = (TextView) itemView.findViewById(R.id.tvTaskDeadLine);
-            this.ivPriority = (ImageView) itemView.findViewById(R.id.ivPriority);
-        }
+    public Task getTask(int pos){
+        return mTasks.get(pos);
     }
 }

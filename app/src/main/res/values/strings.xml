@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Tasky</string>
+    <string name="dataNotReadyText">No task</string>
+    <string name="hint_word">Title</string>
+    <string name="button_save">Save task</string>
+    <string name="hint_text">Description</string>
+    <string name="hint_category">Category</string>
+    <string name="hint_deadline">Deadline</string>
+    <string name="labelPriorityText">Choose priority</string>
+    <string-array name="Priorities">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
+    <string name="errorEmpty">Please enter a task</string>
+    <string name="errorDuplicate">There already exists a task with the same title</string>
 </resources>

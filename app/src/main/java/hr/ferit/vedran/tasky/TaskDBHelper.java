@@ -52,7 +52,7 @@ public class TaskDBHelper extends SQLiteOpenHelper{
         ContentValues contentValues = new ContentValues();
         contentValues.put(Schema.TITLE, task.getTitle());
         contentValues.put(Schema.TEXT, task.getText());
-        contentValues.put(Schema.IMAGE, task.getPriorityImage());
+        contentValues.put(Schema.IMAGE, task.getPriority());
         contentValues.put(Schema.CATEGORY, task.getCategory());
         contentValues.put(Schema.DEADLINE, task.getDeadLine());
         SQLiteDatabase writeableDatabase = this.getWritableDatabase();
